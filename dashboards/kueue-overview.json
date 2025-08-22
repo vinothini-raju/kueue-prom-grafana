@@ -1,4 +1,18 @@
 {
+  "id": 27,
+  "uid": "5FjW5cXHz",
+  "title": "Kueue Overview (Kueue + K8s views)",
+  "tags": ["kueue", "kubernetes", "scheduling"],
+  "timezone": "",
+  "schemaVersion": 37,
+  "version": 2,
+  "refresh": "5s",
+  "style": "dark",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "liveNow": false,
   "annotations": {
     "list": [
       {
@@ -11,272 +25,304 @@
       }
     ]
   },
-  "editable": true,
-  "fiscalYearStartMonth": 0,
-  "graphTooltip": 0,
-  "id": null,
-  "iteration": 1723962000000,
-  "links": [],
-  "liveNow": false,
+  "time": { "from": "now-3h", "to": "now" },
+  "timepicker": {},
+  "weekStart": "",
+  "templating": {
+    "list": [
+      {
+        "allValue": ".*",
+        "current": { "selected": false, "text": "All", "value": "$__all" },
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "includeAll": true,
+        "multi": false,
+        "name": "cluster_queue",
+        "query": {
+          "query": "label_values(kueue_admission_attempts_total, cluster_queue)",
+          "refId": "Prometheus-cluster_queue-Variable-Query"
+        },
+        "refresh": 1,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "allValue": ".*",
+        "current": { "selected": false, "text": "All", "value": "$__all" },
+        "datasource": { "type": "prometheus", "uid": "prometheus" },
+        "includeAll": true,
+        "label": "Namespaces with Kueue jobs",
+        "multi": true,
+        "name": "kueue_ns",
+        "query": {
+          "query": "label_values(kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"}, namespace)",
+          "refId": "Prometheus-kueue_ns-Variable-Query"
+        },
+        "refresh": 1,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
   "panels": [
     {
-      "type": "stat",
+      "id": 1,
       "title": "Kueue scrape health",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "max(up{namespace=\"kueue-system\",pod=~\"kueue-controller-manager-.*\"})", "refId": "A" }
+      ],
       "gridPos": { "h": 4, "w": 6, "x": 0, "y": 0 },
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
-      },
       "fieldConfig": {
         "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "red", "text": "Down" },
+                "1": { "color": "green", "text": "Up" }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
               { "color": "red", "value": null },
               { "color": "green", "value": 1 }
             ]
-          },
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": { "text": "Down", "color": "red" },
-                "1": { "text": "Up", "color": "green" }
-              }
-            }
-          ]
+          }
         },
         "overrides": []
       },
-      "targets": [
-        { "refId": "A", "expr": "max(up{namespace=\"kueue-system\",pod=~\"kueue-controller-manager-.*\"})" }
-      ]
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8"
     },
     {
-      "type": "stat",
+      "id": 2,
       "title": "Active admitted workloads (max over 5m)",
-      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
-      },
-      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
-      "targets": [
-        {
-          "refId": "A",
-          "expr": "sum( max_over_time(kueue_admitted_active_workloads{cluster_queue=~\"$cluster_queue\"}[$__interval]) ) or vector(0)"
-        }
-      ]
-    },
-    {
       "type": "stat",
-      "title": "Pods Pending now (Kueue-managed, in $kueue_ns)",
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
-      "options": {
-        "colorMode": "value",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
-      },
-      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
         {
-          "refId": "A",
-          "expr": "sum( max_over_time(kube_pod_status_phase{phase=\"Pending\", namespace=~\"$kueue_ns\"}[$__interval]) * on (namespace,pod) group_left() kube_pod_labels{label_kueue_x_k8s_io_podset!=\"\"} * on (namespace,pod) group_left(owner_kind) kube_pod_owner{owner_kind=\"Job\"} ) or on() vector(0)"
+          "expr": "sum( max_over_time(kueue_admitted_active_workloads{cluster_queue=~\"$cluster_queue\"}[$__interval]) ) or vector(0)",
+          "refId": "A"
         }
-      ]
-    },
-    {
-      "type": "bargauge",
-      "title": "Jobs by status (now, Kueue-managed, in $kueue_ns)",
-      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
-      "options": {
-        "displayMode": "gradient",
-        "orientation": "horizontal",
-        "showUnfilled": true,
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
-      },
-      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
-      "targets": [
-        {
-          "refId": "A",
-          "legendFormat": "active",
-          "expr": "sum( (kube_job_status_active{namespace=~\"$kueue_ns\"} > 0) * on (namespace, job_name) group_left() kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"} )"
-        },
-        {
-          "refId": "B",
-          "legendFormat": "succeeded",
-          "expr": "sum( (kube_job_status_succeeded{namespace=~\"$kueue_ns\"} > 0) * on (namespace, job_name) group_left() kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"} )"
-        },
-        {
-          "refId": "C",
-          "legendFormat": "failed",
-          "expr": "sum( (kube_job_status_failed{namespace=~\"$kueue_ns\"} > 0) * on (namespace, job_name) group_left() kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"} )"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Pending workloads by status (Kueue)",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
-      "options": {
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "fieldConfig": {
-        "defaults": { "custom": { "drawStyle": "line", "lineInterpolation": "smooth", "lineWidth": 2 } },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "legendFormat": "{{status}}",
-          "expr": "sum by (status) (max_over_time(kueue_pending_workloads{cluster_queue=~\"$cluster_queue\"}[$__interval]))"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "P95 admission attempt duration (s) by ClusterQueue",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
-      "options": {
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "fieldConfig": {
-        "defaults": { "unit": "s", "custom": { "drawStyle": "line", "lineInterpolation": "smooth", "lineWidth": 2 } },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "legendFormat": "{{cluster_queue}}",
-          "expr": "histogram_quantile(0.95, sum by (cluster_queue, le) (rate(kueue_admission_attempt_duration_seconds_bucket{cluster_queue=~\"$cluster_queue\",result=\"success\"}[$__rate_interval])))"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Admission success ratio (15m) by ClusterQueue",
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
-      "options": {
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
+      ],
+      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 0 },
       "fieldConfig": {
         "defaults": {
-          "unit": "percentunit",
-          "custom": { "drawStyle": "line", "lineInterpolation": "smooth", "lineWidth": 2 }
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 80 }
+            ]
+          },
+          "unit": "short"
         },
         "overrides": []
       },
-      "targets": [
-        {
-          "refId": "A",
-          "legendFormat": "{{cluster_queue}}",
-          "expr": "sum by (cluster_queue) (increase(kueue_admission_attempts_total{result=\"success\",cluster_queue=~\"$cluster_queue\"}[$__rate_interval])) / clamp_min(sum by (cluster_queue) (increase(kueue_admission_attempts_total{cluster_queue=~\"$cluster_queue\"}[$__rate_interval])), 1)"
-        }
-      ]
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8"
     },
     {
-      "type": "timeseries",
-      "title": "Pending pods by Job (Kueue-managed, in $kueue_ns)",
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
-      "options": {
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
+      "id": 3,
+      "title": "Pods Pending now (Kueue-managed, in $kueue_ns)",
+      "type": "stat",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum(\n  max_over_time(kube_pod_status_phase{phase=\"Pending\", namespace=~\"$kueue_ns\"}[$__interval])\n  * on (namespace,pod) group_left()\n    count by (namespace,pod) (kube_pod_labels{label_kueue_x_k8s_io_podset!=\"\"})\n  * on (namespace,pod) group_left(owner_kind)\n    max by (namespace,pod,owner_kind) (kube_pod_owner{owner_kind=\"Job\"})\n) or on() vector(0)",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 0 },
       "fieldConfig": {
-        "defaults": { "custom": { "drawStyle": "line", "lineInterpolation": "smooth", "lineWidth": 2 } },
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 80 }
+            ]
+          },
+          "unit": "short"
+        },
         "overrides": []
       },
-      "targets": [
-        {
-          "refId": "A",
-          "legendFormat": "{{owner_name}} ({{namespace}})",
-          "expr": "sum by (namespace, owner_name) ( max_over_time(kube_pod_status_phase{phase=\"Pending\", namespace=~\"$kueue_ns\"}[$__interval]) * on (namespace,pod) group_left(owner_kind,owner_name) kube_pod_owner{owner_kind=\"Job\"} * on (namespace,pod) group_left() kube_pod_labels{label_kueue_x_k8s_io_podset!=\"\"} )"
-        }
-      ]
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "9.3.8"
     },
     {
+      "id": 4,
+      "title": "Jobs by status (now, Kueue-managed, in $kueue_ns)",
       "type": "bargauge",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum( (kube_job_status_active{namespace=~\"$kueue_ns\"} > 0) * on (namespace, job_name) group_left() kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"} )",
+          "legendFormat": "active",
+          "refId": "A"
+        },
+        {
+          "expr": "sum( (kube_job_status_succeeded{namespace=~\"$kueue_ns\"} > 0) * on (namespace, job_name) group_left() kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"} )",
+          "legendFormat": "succeeded",
+          "refId": "B"
+        },
+        {
+          "expr": "sum( (kube_job_status_failed{namespace=~\"$kueue_ns\"} > 0) * on (namespace, job_name) group_left() kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"} )",
+          "legendFormat": "failed",
+          "refId": "C"
+        }
+      ],
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 0 },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "options": {
+        "displayMode": "gradient",
+        "minVizHeight": 10,
+        "orientation": "horizontal",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showUnfilled": true
+      },
+      "pluginVersion": "9.3.8"
+    },
+    {
+      "id": 5,
+      "title": "Pending workloads by status (Kueue)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by (status) (max_over_time(kueue_pending_workloads{cluster_queue=~\"$cluster_queue\"}[$__interval]))",
+          "legendFormat": "{{status}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 4 },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" } }, "overrides": [] },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      }
+    },
+    {
+      "id": 6,
+      "title": "P95 admission attempt duration (s) by ClusterQueue",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum by (cluster_queue, le) (rate(kueue_admission_attempt_duration_seconds_bucket{cluster_queue=~\"$cluster_queue\",result=\"success\"}[$__rate_interval])))",
+          "legendFormat": "{{cluster_queue}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 4 },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      }
+    },
+    {
+      "id": 7,
+      "title": "Admission success ratio (15m) by ClusterQueue",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by (cluster_queue) (increase(kueue_admission_attempts_total{result=\"success\",cluster_queue=~\"$cluster_queue\"}[$__rate_interval])) / clamp_min(sum by (cluster_queue) (increase(kueue_admission_attempts_total{cluster_queue=~\"$cluster_queue\"}[$__rate_interval])), 1)",
+          "legendFormat": "{{cluster_queue}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "fieldConfig": { "defaults": { "unit": "percentunit" }, "overrides": [] },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      }
+    },
+    {
+      "id": 8,
+      "title": "Pending pods by Job (Kueue-managed, in $kueue_ns)",
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by (namespace, owner_name) (\n  max_over_time(kube_pod_status_phase{phase=\"Pending\", namespace=~\"$kueue_ns\"}[$__interval])\n  * on (namespace,pod) group_left(owner_kind,owner_name)\n    max by (namespace,pod,owner_kind,owner_name) (kube_pod_owner{owner_kind=\"Job\"})\n  * on (namespace,pod) group_left()\n    count by (namespace,pod) (kube_pod_labels{label_kueue_x_k8s_io_podset!=\"\"})\n)",
+          "legendFormat": "{{owner_name}} ({{namespace}})",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" } }, "overrides": [] },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      }
+    },
+    {
+      "id": 9,
       "title": "Evictions by reason (increase over 1h)",
+      "type": "bargauge",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by (reason) (increase(kueue_evicted_workloads_total[$__range]))",
+          "legendFormat": "{{reason}}",
+          "refId": "A"
+        }
+      ],
       "gridPos": { "h": 6, "w": 12, "x": 0, "y": 20 },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
       "options": {
         "displayMode": "gradient",
         "orientation": "horizontal",
-        "showUnfilled": true,
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showUnfilled": true
       },
-      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
-      "targets": [
-        { "refId": "A", "legendFormat": "{{reason}}", "expr": "sum by (reason) (increase(kueue_evicted_workloads_total[$__range]))" }
-      ]
+      "pluginVersion": "9.3.8"
     },
     {
-      "type": "timeseries",
+      "id": 10,
       "title": "Active Kueue Jobs by name (in $kueue_ns)",
-      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 20 },
-      "options": {
-        "legend": { "displayMode": "list", "placement": "bottom", "showLegend": true },
-        "tooltip": { "mode": "single", "sort": "none" }
-      },
-      "fieldConfig": {
-        "defaults": { "custom": { "drawStyle": "line", "lineInterpolation": "smooth", "lineWidth": 2 } },
-        "overrides": []
-      },
+      "type": "timeseries",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
       "targets": [
         {
-          "refId": "A",
+          "expr": "sum by (namespace, job_name) ( max_over_time(kube_job_status_active{namespace=~\"$kueue_ns\"}[$__interval]) * on (namespace, job_name) group_left() kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"} )",
           "legendFormat": "{{job_name}} ({{namespace}})",
-          "expr": "sum by (namespace, job_name) ( max_over_time(kube_job_status_active{namespace=~\"$kueue_ns\"}[$__interval]) * on (namespace, job_name) group_left() kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"} )"
+          "refId": "A"
         }
-      ]
-    }
-  ],
-  "refresh": "15s",
-  "schemaVersion": 38,
-  "style": "dark",
-  "tags": ["kueue", "kubernetes", "scheduling"],
-  "templating": {
-    "list": [
-      {
-        "name": "cluster_queue",
-        "type": "query",
-        "datasource": null,
-        "refresh": 1,
-        "hide": 0,
-        "includeAll": true,
-        "allValue": ".*",
-        "multi": false,
-        "query": "label_values(kueue_admission_attempts_total, cluster_queue)",
-        "current": { "selected": true, "text": "All", "value": ".*" },
-        "regex": "",
-        "sort": 1
-      },
-      {
-        "name": "kueue_ns",
-        "label": "Namespaces with Kueue jobs",
-        "type": "query",
-        "datasource": null,
-        "refresh": 1,
-        "hide": 0,
-        "includeAll": true,
-        "allValue": ".*",
-        "multi": true,
-        "query": "label_values(kube_job_annotations{annotation_kueue_x_k8s_io_queue_name!=\"\"}, namespace)",
-        "current": { "selected": true, "text": "All", "value": ".*" },
-        "regex": "",
-        "sort": 1
+      ],
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 20 },
+      "fieldConfig": { "defaults": { "color": { "mode": "palette-classic" } }, "overrides": [] },
+      "options": {
+        "legend": { "displayMode": "list", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
       }
-    ]
-  },
-  "time": { "from": "now-1h", "to": "now" },
-  "timezone": "",
-  "title": "Kueue Overview (Kueue + K8s views)",
-  "version": 13
+    }
+  ]
 }
