@@ -1,0 +1,108 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "graphTooltip": 0,
+  "panels": [
+    {
+      "id": 1,
+      "title": "Jobs by State (cluster-wide)",
+      "type": "graph",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by(state) (max_over_time(slurm_job_count_total[5m])) OR sum by(state) (max_over_time(slurm_job_count_per_state[5m])) OR on() (label_replace(vector(0), \"state\", \"RUNNING\", \"\", \"\"))",
+          "legendFormat": "{{state}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 }
+    },
+    {
+      "id": 2,
+      "title": "Cluster CPU Load and Idle",
+      "type": "graph",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "sum(slurm_cpu_load)", "legendFormat": "CPU Load", "refId": "A" },
+        { "expr": "sum(slurm_cpus_idle)", "legendFormat": "Idle CPUs", "refId": "B" }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 }
+    },
+    {
+      "id": 3,
+      "title": "Memory: Allocated vs Total",
+      "type": "graph",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "sum(slurm_mem_alloc)", "legendFormat": "Allocated", "refId": "A" },
+        { "expr": "sum(slurm_mem_real)", "legendFormat": "Total", "refId": "B" }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 }
+    },
+    {
+      "id": 4,
+      "title": "Pending vs Running Jobs per Partition",
+      "type": "graph",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by(partition) (max_over_time(slurm_job_count_per_state{state=\"PENDING\"}[5m])) OR on() (label_replace(vector(0), \"partition\", \"all\", \"\", \"\"))",
+          "legendFormat": "Pending - {{partition}}",
+          "refId": "A"
+        },
+        {
+          "expr": "sum by(partition) (max_over_time(slurm_job_count_per_state{state=\"RUNNING\"}[5m])) OR on() (label_replace(vector(0), \"partition\", \"all\", \"\", \"\"))",
+          "legendFormat": "Running - {{partition}}",
+          "refId": "B"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 }
+    },
+    {
+      "id": 5,
+      "title": "CPUs Allocated vs Total per Partition",
+      "type": "graph",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        { "expr": "slurm_partition_alloc_cpus", "legendFormat": "Allocated CPUs - {{partition}}", "refId": "A" },
+        { "expr": "slurm_partition_total_cpus", "legendFormat": "Total CPUs - {{partition}}", "refId": "B" }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 16 }
+    },
+    {
+      "id": 6,
+      "title": "Jobs per User (Running)",
+      "type": "graph",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "targets": [
+        {
+          "expr": "sum by(user) (max_over_time(slurm_user_state_total{state=\"RUNNING\", user!=\"\"}[5m])) OR on(user) label_replace(vector(0), \"user\", \"<none>\", \"__name__\", \".*\")",
+          "legendFormat": "User: {{user}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 16 }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": ["slurm", "hpc", "jobs"],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timezone": "browser",
+  "title": "Slurm Jobs Dashboard",
+  "uid": "slurm_jobs",
+  "version": 2
+}

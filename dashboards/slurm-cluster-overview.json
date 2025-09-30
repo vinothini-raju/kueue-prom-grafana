@@ -1,0 +1,969 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 36,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_cpu_load)",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Load",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_cpus_total)",
+          "refId": "A"
+        }
+      ],
+      "title": "CPUs (Total)",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_cpus_idle)",
+          "refId": "A"
+        }
+      ],
+      "title": "CPUs (Idle)",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_mem_real)",
+          "refId": "A"
+        }
+      ],
+      "title": "Memory (Real)",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 0
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_mem_alloc)",
+          "refId": "A"
+        }
+      ],
+      "title": "Memory (Allocated)",
+      "type": "stat"
+    },
+    {
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 0
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_mem_free)",
+          "refId": "A"
+        }
+      ],
+      "title": "Memory (Free)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "IDLE – Node is up and available, all CPUs are free.\n\nALLOCATED (alloc) – Node is fully allocated to one or more jobs (no free CPUs).\n\nMIXED – Node has some CPUs allocated to jobs and some still idle (partially used).\n\nDOWN / DOWN* – Node is marked down, typically due to hardware/software issues or admin action.\n\nDRAIN – Node is being drained; no new jobs will start, but running jobs continue until finished.\n\nRESERVED – Node is reserved for a future job or maintenance (not available for general scheduling).\n\nMAINT – Node is explicitly placed into maintenance mode by an admin.\n\nUNKNOWN – Node state cannot be determined (commonly a communication/config issue).",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 11,
+        "x": 0,
+        "y": 4
+      },
+      "id": 6,
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(\n  last_over_time(sum by (state) (slurm_node_count_per_state)[5m:])\n)\nor on (state) label_replace(vector(0), \"state\", \"idle\",  \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"mixed\", \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"alloc\", \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"down\",  \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"down*\", \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"drain\", \"__name__\", \"\")\n",
+          "instant": true,
+          "legendFormat": "{{state}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Nodes per State",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "IDLE – CPUs not running any job (free for scheduling).\n\nALLOCATED (alloc) – CPUs currently assigned to jobs.\n\nMIXED – Some CPUs allocated, some idle, on the same node.\n\nDOWN / DOWN* – CPUs on nodes that are down.\n\nDRAIN – CPUs on nodes being drained (no new jobs).\n\nRESERVED – CPUs reserved for jobs/maintenance.\n\nUNKNOWN – CPUs on nodes with unclear state.",
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 13,
+        "x": 11,
+        "y": 4
+      },
+      "id": 9,
+      "options": {
+        "displayMode": "basic",
+        "minVizHeight": 10,
+        "minVizWidth": 0,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showUnfilled": true
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "(\n  last_over_time(sum by (state) (slurm_cpus_per_state)[5m:])\n)\nor on (state) label_replace(vector(0), \"state\", \"IDLE\",      \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"ALLOCATED\", \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"MIXED\",     \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"DOWN\",      \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"DOWN*\",     \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"DRAIN\",     \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"RESERVED\",  \"__name__\", \"\")\nor on (state) label_replace(vector(0), \"state\", \"UNKNOWN\",   \"__name__\", \"\")\n",
+          "instant": true,
+          "legendFormat": "{{state}}",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "CPUs per State",
+      "type": "bargauge"
+    },
+    {
+      "description": "One series per common Slurm state with 0 fallback so panel never shows 'No data'.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 11,
+        "x": 0,
+        "y": 11
+      },
+      "id": 8,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "table",
+          "placement": "right",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_job_count_per_state{state=\"PENDING\"}) or on() (0*sum(slurm_cpus_total))",
+          "legendFormat": "PENDING",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_job_count_per_state{state=\"RUNNING\"}) or on() (0*sum(slurm_cpus_total))",
+          "legendFormat": "RUNNING",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_job_count_per_state{state=\"COMPLETING\"}) or on() (0*sum(slurm_cpus_total))",
+          "legendFormat": "COMPLETING",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_job_count_per_state{state=\"SUSPENDED\"}) or on() (0*sum(slurm_cpus_total))",
+          "legendFormat": "SUSPENDED",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_job_count_per_state{state=\"FAILED\"}) or on() (0*sum(slurm_cpus_total))",
+          "legendFormat": "FAILED",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_job_count_per_state{state=\"CANCELLED\"}) or on() (0*sum(slurm_cpus_total))",
+          "legendFormat": "CANCELLED",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_job_count_per_state{state=\"TIMEOUT\"}) or on() (0*sum(slurm_cpus_total))",
+          "legendFormat": "TIMEOUT",
+          "refId": "G"
+        }
+      ],
+      "title": "Jobs by State",
+      "type": "timeseries"
+    },
+    {
+      "description": "Always shows a 0-series when no jobs exist.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 13,
+        "x": 11,
+        "y": 11
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "sum(slurm_job_count_total) or on() (0*sum(slurm_cpus_total))",
+          "legendFormat": "total",
+          "refId": "A"
+        }
+      ],
+      "title": "Jobs (Total)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "what you’re looking at are Prometheus scrape duration metrics for your two exporters, plotted in Grafana. Each line in that legend corresponds to how long the exporter takes to collect and expose metrics when Prometheus scrapes it:\n\nslurm-exporter: job scrape (green)\nAverage scrape time of the cluster-wide Slurm exporter when it runs the Slurm commands (scontrol, sinfo, etc.) to gather job-related metrics.\n\nslurm-exporter: node scrape (yellow)\nAverage scrape time for the same exporter when it collects node-level metrics (CPU/memory per node, node states, etc.).\n\njob-exporter: avg scrape (5m) (blue)\nRolling 5-minute average scrape duration from the slurm-job-exporter (the custom exporter you added). This one specifically calls squeue and sacct to break down jobs by state, partition, user, and account.\n\n🔎 Why this matters:\n\nNormally scrape durations should be a fraction of a second (e.g. 0.1–2s).\n\nIf you see spikes into multiple seconds (or worse, >10s), Prometheus scrapes might timeout or skip samples, causing missing data in Grafana.\n\nLong scrape times usually mean the exporter is running expensive Slurm commands (like sacct) too frequently, or the cluster itself is slow to respond.\n\n✅ Rule of thumb:\n\nKeep scrape times < 5s (ideally < 1s).\n\nIf the job-exporter line is consistently higher, you might want to reduce the frequency of sacct calls or configure the scrape interval to be longer (e.g., 1m instead of 15s).",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 2,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 17
+      },
+      "id": 10,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "avg(slurm_job_scrape_duration) without (container,instance,endpoint,pod,service,namespace)",
+          "legendFormat": "slurm-exporter: job scrape",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "avg(slurm_node_scrape_duration) without (container,instance,endpoint,pod,service,namespace)",
+          "legendFormat": "slurm-exporter: node scrape",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "rate(slurm_job_exporter_scrape_seconds_sum[5m]) / rate(slurm_job_exporter_scrape_seconds_count[5m])",
+          "legendFormat": "job-exporter: avg scrape (5m)",
+          "refId": "C"
+        }
+      ],
+      "title": "Exporter Scrape Durations",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "The State Snapshot (Latest) panel in your dashboard is essentially a table view of the most recent Slurm cluster state, pulled directly from the last scrape of your exporters.\n\nSpecifically, it is aggregating metrics like:\n\nCPU load, total, idle (slurm_cpu_load, slurm_cpus_total, slurm_cpus_idle)\n\nMemory real, allocated (slurm_mem_real, slurm_mem_alloc)\n\nCPUs per state (slurm_cpus_per_state{state=\"idle|mixed|alloc\"})\n\nJobs total (slurm_job_count_total or per-state)\n\nand presenting them in a table, so you get a point-in-time snapshot of the cluster without having to interpret time-series graphs.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto",
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 13,
+        "x": 11,
+        "y": 18
+      },
+      "id": 12,
+      "options": {
+        "footer": {
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "frameIndex": 0,
+        "showHeader": true
+      },
+      "pluginVersion": "9.3.8",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "$datasource"
+          },
+          "expr": "last_over_time(sum by(state) (slurm_cpus_per_state)[5m:])",
+          "instant": true,
+          "legendFormat": "{{state}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Cluster State Snapshot (Latest)",
+      "transformations": [
+        {
+          "id": "labelsToFields",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "indexByName": {},
+            "renameByName": {
+              "Time": "Time",
+              "Value": "Value",
+              "state": "state"
+            }
+          }
+        }
+      ],
+      "type": "table"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 37,
+  "style": "dark",
+  "tags": [
+    "slurm",
+    "kubernetes",
+    "jobs",
+    "exporter"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Prometheus",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Slurm Jobs & Cluster Overview",
+  "uid": "slurm-jobs-cluster",
+  "version": 7,
+  "weekStart": ""
+}
